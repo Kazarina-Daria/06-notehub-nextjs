@@ -12,7 +12,7 @@ export default function Pagination ({currentPage, pageCount, onPageChange} : Pag
      if (pageCount <= 1) return null;
      return (
         <ReactPaginate
-             previousLabel={"<"}
+      previousLabel={"<"}
       nextLabel={">"}
       pageCount={pageCount}
       forcePage={currentPage}

@@ -1,37 +1,45 @@
-import NotesClient from "../Notes.client";
+"use client";
+
 import { fetchNoteById } from "@/lib/api";
-import { QueryClient, HydrationBoundary, dehydrate } from "@tanstack/react-query";
+// import { QueryClient, HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import css from "./NoteDetails.module.css";
-import type { Note } from "@/types/note";
-interface NoteDetailsProps{
-   params:{ id: string };
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+
+
+
+// interface NoteDetailsProps{
+//    params:{ id: string };
+// }
+
+export default  function NoteDetails(){
+const params = useParams<{ id: string }>();
+  const id = params?.id;
+
+  const {
+    data: note,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["note", id],
+    queryFn: () => fetchNoteById(id as string),
+    enabled: Boolean(id),
+    refetchOnMount: false,
+  });
+
+  if (isLoading) return <p>Loading, please wait...</p>;
+  if (error || !note) return <p>Something went wrong.</p>;
+
+  return (
+    <div className={css.container}>
+      <div className={css.item}>
+        <div className={css.header}>
+          <h2>{note.title}</h2>
+        </div>
+        <p className={css.content}>{note.content}</p>
+        <p className={css.date}>{note.createdAt}</p>
+      </div>
+    </div>
+  );
 }
 
-export default async function NoteDetails({params}:NoteDetailsProps){
-    const { id } =  params;
-    const queryClient= new QueryClient();
-    await queryClient.prefetchQuery({
-        queryKey:["note", id],
-        queryFn:()=> fetchNoteById(id),
-    })
-    const note = queryClient.getQueryData<Note>(["note", id]) as Awaited<
-    ReturnType<typeof fetchNoteById>>;
-    return(
-        <HydrationBoundary state={dehydrate(queryClient)}>
-<NotesClient/>
-{note && (
- <div className={css.container}>
-	<div className={css.item}>
-	  <div className={css.header}>
-	    <h2>{note.title}</h2>
-	  </div>
-	  <p className={css.content}>{note.content}</p>
-	  <p className={css.date}>{note.createdAt}</p>
-	</div>
-</div>
-
-)}
-        </HydrationBoundary>
-
-    )
-}

@@ -12,7 +12,7 @@ import Pagination from "../../components/Pagination/Pagination";
 import Modal from "../../components/Modal/Modal";
 import NoteForm from "../../components/NoteForm/NoteForm";
 import { useParams } from "next/navigation";
-import NoteDetails from "./[id]/NoteDetails";
+
 
 export default function NotesClient() {
   const [onQuery, setOnQuery] = useState("");
