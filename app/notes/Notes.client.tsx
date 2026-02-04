@@ -16,7 +16,7 @@ import { useParams } from "next/navigation";
 
 export default function NotesClient() {
   const [onQuery, setOnQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
 
   const closeModal = () => setModalOpen(false);
@@ -25,7 +25,7 @@ export default function NotesClient() {
   const { id } = useParams<{ id: string }>();
   const { data, isSuccess, isLoading, isError } = useQuery({
     queryKey: ["note", currentPage, onQuery],
-    queryFn: () => fetchNotes(onQuery, currentPage),
+    queryFn: () => fetchNotes(onQuery, currentPage + 1),
     placeholderData: keepPreviousData,
     refetchOnMount: false,
   });
@@ -33,7 +33,7 @@ export default function NotesClient() {
 
   const onFound = useDebouncedCallback((value: string) => {
     setOnQuery(value);
-    setCurrentPage(1);
+    setCurrentPage(0);
   }, 250);
   return (
     <div className={css.app}>

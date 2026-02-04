@@ -9,6 +9,7 @@ export interface FetchNotesResponse {
 }
 
 const ACCESS_TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
+
 export const fetchNotes= async (onQuery : string, page: number) : Promise<FetchNotesResponse>=> {
     const res = await axios.get<FetchNotesResponse>(BASE_URL + "/notes", {
         headers: {
