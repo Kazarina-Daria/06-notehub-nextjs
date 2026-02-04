@@ -24,6 +24,7 @@ export const fetchNotes= async (onQuery : string, page: number) : Promise<FetchN
     return res.data;
 }
 
+
 export interface CreateNote{
 title:string;
 content :string;
