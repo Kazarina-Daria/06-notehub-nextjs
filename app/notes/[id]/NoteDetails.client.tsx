@@ -1,16 +1,10 @@
 "use client";
 
 import { fetchNoteById } from "@/lib/api";
-// import { QueryClient, HydrationBoundary, dehydrate } from "@tanstack/react-query";
-import css from "./NoteDetails.module.css";
+import css from "./NoteDetails.client.module.css";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 
-
-
-// interface NoteDetailsProps{
-//    params:{ id: string };
-// }
 
 export default  function NoteDetails(){
 const params = useParams<{ id: string }>();
