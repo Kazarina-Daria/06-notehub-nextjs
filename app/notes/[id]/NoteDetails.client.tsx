@@ -15,7 +15,7 @@ const params = useParams<{ id: string }>();
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["note", id],
+    queryKey: ["notes", id],
     queryFn: () => fetchNoteById(id as string),
     enabled: Boolean(id),
     refetchOnMount: false,
@@ -31,6 +31,9 @@ const params = useParams<{ id: string }>();
           <h2>{note.title}</h2>
         </div>
         <p className={css.content}>{note.content}</p>
+          <p className={css.tag}>
+          <strong>Tag:</strong> {note.tag}
+        </p>
         <p className={css.date}>{note.createdAt}</p>
       </div>
     </div>
